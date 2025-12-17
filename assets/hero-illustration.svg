@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1">
+      <stop offset="0" stop-color="#7b3fb3"/>
+      <stop offset="1" stop-color="#2c0b4b"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#cfa6ff" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#2b0b4a" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)" />
+  <g transform="translate(80,40)">
+    <ellipse cx="900" cy="460" rx="260" ry="60" fill="url(#lake)" />
+    <g transform="translate(620,140)">
+      <rect x="0" y="0" width="360" height="220" rx="14" fill="#ede6f6"/>
+      <polygon points="0,0 180,-80 360,0" fill="#f7eefe"/>
+      <rect x="40" y="70" width="90" height="60" rx="8" fill="#d2b6f0"/>
+      <rect x="140" y="70" width="90" height="60" rx="8" fill="#b58ee8"/>
+    </g>
+    <g>
+      <path d="M140 420 C80 360 40 320 0 300 L40 380 C80 420 140 440 220 430 Z" fill="#1b0630" opacity="0.95"/>
+    </g>
+    <g transform="translate(40,20)">
+      <path d="M20 260 C40 180 110 120 220 110 C320 100 420 140 520 160 C600 175 680 180 760 150 C820 130 900 90 980 110 L980 260 Z" fill="#2b0b4a" opacity="0.5"/>
+    </g>
+  </g>
+</svg>

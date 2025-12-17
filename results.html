@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Availability Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .results-hero{background:linear-gradient(180deg,#120230,#0f0630);color:#fff;padding:2.2rem 0}
+      .results-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:1.2rem}
+      .room{background:#fff;color:#111;border-radius:12px;overflow:hidden}
+      .room img{width:100%;height:180px;object-fit:cover}
+      .room .body{padding:12px}
+      .book-now{background:var(--accent);color:#fff;padding:10px 12px;border-radius:8px;text-decoration:none}
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">HOTEL</div>
+        <nav class="main-nav">
+          <a href="index.html">Home</a>
+        </nav>
+      </div>
+    </header>
+    <section class="results-hero">
+      <div class="container">
+        <h2>Available Rooms</h2>
+        <p id="querySummary" class="muted">Checking availability...</p>
+      </div>
+    </section>
+    <main class="container">
+      <div id="results" class="results-list"></div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="links"><a href="index.html">Home</a></div>
+        <div class="big-word">HOTEL</div>
+      </div>
+    </footer>
+
+    <script>
+      async function loadResults(){
+        const raw = sessionStorage.getItem('searchQuery');
+        if(!raw){ document.getElementById('querySummary').textContent = 'No search query found.'; return; }
+        const q = JSON.parse(raw);
+        document.getElementById('querySummary').textContent = `From ${q.checkin} → ${q.checkout} · Guests: ${q.guests}`;
+        // fetch from the mock Express API when available
+        const params = new URLSearchParams({ checkin: q.checkin, checkout: q.checkout, guests: q.guests });
+        const resp = await fetch('/api/availability?' + params.toString());
+        const data = await resp.json();
+        const rooms = data.rooms;
+        const out = document.getElementById('results');
+        if(rooms.length===0){ out.innerHTML = '<p>No rooms found for the selected dates.</p>'; return; }
+        out.innerHTML = rooms.map(r => `
+          <div class="room card">
+            <img src="${r.image}" alt="${r.name}" />
+            <div class="body">
+              <h3>${r.name}</h3>
+              <p class="muted">${r.description}</p>
+              <p><strong>${'$'+r.price.toFixed(2)}</strong></p>
+              <a class="book-now" href="booking.html?room=${r.id}">Book</a>
+            </div>
+          </div>
+        `).join('');
+      }
+      window.addEventListener('DOMContentLoaded', loadResults);
+    </script>
+  </body>
+</html>

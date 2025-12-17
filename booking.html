@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Complete Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .booking-wrap{padding:3rem 0}
+      .booking-card-large{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start}
+      .room-preview img{width:100%;border-radius:10px}
+      form .row{display:flex;gap:12px}
+      form label{display:block;margin-bottom:8px}
+      .field{margin-bottom:12px}
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">HOTEL</div>
+        <nav class="main-nav"><a href="index.html">Home</a></nav>
+      </div>
+    </header>
+
+    <main class="container booking-wrap">
+      <div id="bookingArea">
+        <h2>Complete your booking</h2>
+        <div class="booking-card-large">
+          <div>
+            <div class="room-preview card" id="roomCard"></div>
+            <div class="card" style="margin-top:16px;padding:16px">
+              <h4>Your stay</h4>
+              <p id="staySummary" class="muted"></p>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="padding:18px">
+              <h3>Guest details</h3>
+              <form id="bookingForm">
+                <div class="field"><label>Name</label><input name="name" required placeholder="Full name"/></div>
+                <div class="field"><label>Email</label><input name="email" type="email" required placeholder="you@example.com"/></div>
+                <div class="field"><label>Phone</label><input name="phone" placeholder="Optional"/></div>
+                <div class="field"><button class="btn orange" id="confirmBtn">Confirm & Pay</button></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner"><div class="links"><a href="index.html">Home</a></div><div class="big-word">HOTEL</div></div>
+    </footer>
+
+    <script>
+      // read room id from query param or sessionStorage
+      function qs(name){ const u = new URLSearchParams(location.search); return u.get(name); }
+      const roomId = qs('room') || null;
+      const raw = sessionStorage.getItem('searchQuery');
+      const search = raw ? JSON.parse(raw) : null;
+
+      async function load(){
+        if(!search){ document.getElementById('staySummary').textContent = 'No search data. Please search from home.'; }
+        else{ document.getElementById('staySummary').textContent = `${search.checkin} → ${search.checkout} · Guests: ${search.guests}`; }
+
+        if(!roomId){ document.getElementById('roomCard').innerHTML = '<p>No room selected.</p>'; return; }
+        const res = await fetch('/api/rooms/' + roomId);
+        if(!res.ok){ document.getElementById('roomCard').innerHTML='<p>Room not found.</p>'; return; }
+        const room = await res.json();
+        document.getElementById('roomCard').innerHTML = `
+          <img src="${room.image}" alt="${room.name}" />
+          <div style="padding:12px"><h3>${room.name}</h3><p class=\"muted\">${room.description}</p><p><strong>$${room.price.toFixed(2)}</strong></p></div>
+        `;
+
+        const form = document.getElementById('bookingForm');
+        form.addEventListener('submit', async (e)=>{
+          e.preventDefault();
+          const data = Object.fromEntries(new FormData(form).entries());
+          const payload = {
+            roomId: Number(roomId),
+            checkin: search?.checkin || '',
+            checkout: search?.checkout || '',
+            guests: search?.guests || 1,
+            name: data.name, email: data.email, phone: data.phone
+          };
+          document.getElementById('confirmBtn').classList.add('loading');
+          const r = await fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+          const j = await r.json();
+          document.getElementById('confirmBtn').classList.remove('loading');
+          if(j && j.success){
+            // redirect to confirmation page
+            sessionStorage.setItem('lastBooking', JSON.stringify(j.booking));
+            location.href = 'confirmation.html?ref=' + encodeURIComponent(j.booking.id);
+          } else {
+            alert('Booking failed: ' + (j.error || 'unknown'));
+          }
+        });
+      }
+      load();
+    </script>
+  </body>
+</html>

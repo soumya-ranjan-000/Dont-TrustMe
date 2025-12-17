@@ -1,0 +1,110 @@
+.root{--bg:#0b0520;--accent:#ff9a33;--muted:#f7eef2;--card:#fff;--purple1:#170631;--purple2:#6b2f9a}
+:root{--bg:#0b0520;--accent:#ff9a33;--muted:#f7eef2;--card:#fff;--purple1:#170631;--purple2:#6b2f9a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:var(--muted)}
+.container{max-width:1180px;margin:0 auto;padding:2rem}
+.site-header{background:linear-gradient(90deg,var(--purple1),#120230);color:#fff}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
+.brand{font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:2px;font-size:1.6rem}
+.main-nav a{color:rgba(255,255,255,0.9);margin:0 12px;text-decoration:none;font-weight:600}
+.btn{display:inline-block;padding:10px 18px;border-radius:10px;background:transparent;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,0.08);font-weight:600}
+.btn.primary{background:rgba(255,255,255,0.06)}
+.btn.orange{background:var(--accent);color:#fff;border:none;box-shadow:0 6px 18px rgba(255,154,51,0.22)}
+.hero{background:linear-gradient(180deg,#1f0a3b 0%, #241041 60%, #f6e9ec 60%);color:#fff;padding:4rem 0 6rem 0;position:relative}
+.hero-grid{display:grid;grid-template-columns:1fr 560px;gap:2rem;align-items:center}
+.hero-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:5.2rem;line-height:0.86;margin:0;color:#fff}
+.muted{color:rgba(255,255,255,0.9);margin-top:0.6rem}
+.booking-card{background:#fff;color:#111;padding:18px;border-radius:14px;width:100%;max-width:520px;box-shadow:0 30px 60px rgba(15,6,48,0.6);display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-top:1.2rem}
+.booking-card label{font-size:12px;color:#444}
+.booking-card input, .booking-card select{width:100%;padding:10px;border-radius:8px;border:1px solid #ece7ec}
+.hero-right img{width:100%;display:block;border-radius:18px;box-shadow:0 30px 80px rgba(11,5,30,0.7)}
+.features{display:grid;grid-template-columns:1fr 520px 1fr;gap:2rem;padding:4rem 0;background:#fbeef2}
+.feature-col{display:flex;flex-direction:column;gap:1rem}
+.feature{background:#ffffff;border-radius:10px;padding:18px;display:flex;flex-direction:column;align-items:flex-start}
+.feature .icon{width:56px;height:56px;fill:#6b2f9a;margin-bottom:10px}
+.feature-center{text-align:center}
+.lead{color:#666;max-width:520px;margin:0 auto}
+.cta-row{display:flex;gap:12px;justify-content:center;margin-top:18px}
+.promo{background:linear-gradient(180deg,#120230,#0f0630);padding:3rem 0;color:#fff}
+.promo-card{background:#fff;border-radius:14px;padding:20px;display:flex;align-items:center;gap:18px;max-width:900px;margin:0 auto}
+.promo-card h3{color:#222;margin:0;font-weight:700}
+.promo-card img{height:140px}
+.showcase{padding:4rem 0;text-align:center}
+.gallery{display:flex;gap:18px;justify-content:center;margin:2rem 0}
+.card{overflow:hidden}
+.photo img{width:320px;height:220px;object-fit:cover;border-radius:12px}
+.site-footer{background:linear-gradient(180deg,#14002a,#120230);color:#fff;padding:4rem 0}
+.footer-inner{display:flex;align-items:center;justify-content:space-between}
+.footer-inner .links a{color:rgba(255,255,255,0.85);margin:0 10px;text-decoration:none}
+.big-word{font-family:'Montserrat',sans-serif;font-weight:800;font-size:8rem;opacity:0.08}
+@media(max-width:1100px){
+  .container{padding:1.2rem}
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-right{order:-1}
+  .hero-title{font-size:3.2rem}
+  .features{grid-template-columns:1fr}
+  .feature-center{order:2}
+  .feature-col{order:1}
+  .footer-inner{flex-direction:column;gap:1rem}
+  .big-word{font-size:3.6rem}
+  .booking-card{grid-template-columns:1fr 1fr;}
+}
+
+/* improved responsive breakpoints */
+@media(max-width:1400px){
+  .hero-grid{grid-template-columns:1fr 520px}
+  .hero-title{font-size:4.6rem}
+}
+
+@media(max-width:1000px){
+  .hero-title{font-size:3.6rem}
+  .booking-card{max-width:420px}
+}
+
+@media(max-width:600px){
+  .hero-title{font-size:2.6rem}
+  .booking-card{grid-template-columns:1fr}
+  .booking-card label{width:100%}
+  .hero-right img{height:240px;object-fit:cover}
+}
+
+/* Animations and microinteractions */
+.hero-right img{animation:float 8s ease-in-out infinite both}
+@keyframes float{0%{transform:translateY(0) rotate(0.001deg)}50%{transform:translateY(-12px) rotate(-0.2deg)}100%{transform:translateY(0) rotate(0.001deg)}}
+
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.in-view{opacity:1;transform:translateY(0)}
+
+.stagger-1{transition-delay:.06s}
+.stagger-2{transition-delay:.12s}
+.stagger-3{transition-delay:.18s}
+
+.feature{transition:transform .32s cubic-bezier(.22,.9,.3,1),box-shadow .32s}
+.feature:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(11,5,30,0.08)}
+
+.booking-card input:focus, .booking-card select:focus{outline:none;box-shadow:0 8px 20px rgba(107,47,154,0.12);border-color:rgba(107,47,154,0.18)}
+
+.btn{position:relative;overflow:hidden}
+.btn:active{transform:translateY(1px);}
+
+/* ripple effect for primary CTAs */
+.ripple{position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,0.35);pointer-events:none}
+.btn.orange .ripple{background:rgba(255,255,255,0.18)}
+
+.main-nav a{position:relative}
+.main-nav a::after{content:'';position:absolute;height:3px;left:0;right:0;bottom:-6px;background:var(--accent);transform:scaleX(0);transform-origin:left center;transition:transform .28s ease}
+.main-nav a:hover::after{transform:scaleX(1)}
+
+/* subtle page section reveal */
+section{will-change:transform,opacity}
+
+/* results room hover */
+.room{transition:transform .28s ease,box-shadow .28s ease}
+.room:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(11,5,30,0.12)}
+
+/* loading state for CTA */
+.btn.loading{opacity:0.95;transform:scale(.995);}
+.btn.loading::after{content:'';display:inline-block;margin-left:10px;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);border-top-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+
